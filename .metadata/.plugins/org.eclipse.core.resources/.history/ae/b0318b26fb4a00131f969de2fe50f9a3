@@ -1,5 +1,0 @@
-package share.manager.stock;
-
-public class ShareManager extends Application {
-
-}

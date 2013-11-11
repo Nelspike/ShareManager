@@ -1,9 +1,0 @@
-package share.manager.stock;
-
-import android.app.Application;
-
-public class ShareManager extends Application {
-
-	public static String directoryName = "ShareManager";
-	
-}

@@ -1,9 +1,0 @@
-package share.manager.stock;
-
-import android.app.Application;
-
-public class ShareManager extends Application {
-
-	public static String yahooChart = "http://ichart.finance.yahoo.com/table.txt?";
-	public static String yahooQuote = " http://finance.yahoo.com/d/quotes?f=sl1d1t1v&s=";
-}
