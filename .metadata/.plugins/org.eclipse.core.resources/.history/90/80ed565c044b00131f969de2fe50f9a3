@@ -1,0 +1,7 @@
+package share.manager.stock;
+
+import android.app.Application;
+
+public class ShareManager extends Application {
+
+}

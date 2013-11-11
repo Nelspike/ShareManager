@@ -1,0 +1,43 @@
+package share.manager.stock;
+
+import share.manager.connection.ConnectionThread;
+import share.manager.utils.ShareUtils;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.view.Menu;
+
+public class MainActivity extends Activity {
+
+	private ShareManager app;
+	
+	@SuppressLint("HandlerLeak")
+	private Handler threadConnectionHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			System.out.println((String)msg.obj);
+		}
+	};
+	
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        
+        app = (ShareManager) this.getApplication();
+        
+		ConnectionThread dataThread = new ConnectionThread(
+				app.yahooChart+ShareUtils.createChartLink(10, 10, 2013, 11, 10, 2013, 'w', "DELL"), threadConnectionHandler, null, this);
+		dataThread.start();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+    
+}

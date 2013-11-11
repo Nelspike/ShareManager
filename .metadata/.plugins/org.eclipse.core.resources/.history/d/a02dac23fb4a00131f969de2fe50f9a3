@@ -1,0 +1,5 @@
+package share.manager.stock;
+
+public class ShareManager {
+
+}
