@@ -10,5 +10,57 @@
     <string name="description">Generic description</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_company">CompanyActivity</string>
-
+    <string name="graph_settings">Charts</string>
+    <string name="other_settings">Other</string>
+    
+    <string name="periodicity_pref">Periodicity of shares</string>
+    <string name="periodicity_summary">Define how periodically shares will be displayed in charts</string>
+    <string-array name="periodicity_entries">
+        <item>Daily</item>
+        <item>Weekly</item>
+        <item>Monthly</item>
+    </string-array>
+    <string-array name="periodicity_entries_values">
+        <item>d</item>
+        <item>w</item>
+        <item>m</item>
+    </string-array>
+    
+    <string name="days_pref">Amount of days</string>
+    <string name="days_summary">Define the amount of days to display in charts</string>
+    <string-array name="days_entries">
+        <item>10 days</item>
+        <item>20 days</item>
+        <item>30 days</item>
+    </string-array>
+    <string-array name="days_entries_values">
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+    </string-array>
+    
+    <string name="graph_pref">Chart type</string>
+    <string name="graph_summary">Define what type of chart to display</string>
+    <string-array name="graph_entries">
+        <item>Linear</item>
+        <item>Bars</item>
+        <item>Circular</item>
+    </string-array>
+    <string-array name="graph_entries_values">
+        <item>lin</item>
+        <item>bar</item>
+        <item>cir</item>
+    </string-array>
+    
+    <string name="currency_pref">Currency</string>
+    <string name="currency_summary">Define what currency to see your values in</string>
+    <string-array name="currency_entries">
+        <item>Dollar (US$)</item>
+        <item>Euro (€)</item>
+    </string-array>
+    <string-array name="currency_entries_values">
+        <item>usd</item>
+        <item>eur</item>
+    </string-array>
+    
 </resources>

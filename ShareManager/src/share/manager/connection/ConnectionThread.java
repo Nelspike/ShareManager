@@ -1,7 +1,8 @@
 package share.manager.connection;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -10,15 +11,13 @@ public class ConnectionThread extends Thread {
 
 	private ConnectionRunnable runConnection;
 	private Handler mHandler;
-	private ProgressDialog progDialog;
 	/*private View view;
 	private ShareManager app;*/
 	
 	public ConnectionThread(String link, Handler handler,
-			ProgressDialog progDialog/*, View view*/, Activity context) {
+			/*, View view*/ Activity context) {
 		runConnection = new ConnectionRunnable(link);
 		mHandler = handler;
-		this.progDialog = progDialog;
 		//this.view = view;
 		//this.app = ((ShareManager) context.getApplicationContext());
 	}
@@ -28,14 +27,11 @@ public class ConnectionThread extends Thread {
 		Looper.prepare();
 		runConnection.run();
 		threadMsg();
-
-		if (progDialog != null)
-			progDialog.dismiss();
 		
 		Looper.loop();
 	}
 
-	public String getResult() {
+	public ArrayList<String> getResult() {
 		return runConnection.getResultObject();
 	}
 	

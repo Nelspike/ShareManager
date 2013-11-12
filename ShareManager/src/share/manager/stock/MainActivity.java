@@ -24,14 +24,7 @@ import android.widget.SearchView;
 
 public class MainActivity extends FragmentActivity {
 
-	@SuppressLint("HandlerLeak")
-	private Handler threadConnectionHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-				System.out.println((String)msg.obj);
-		}
-	};
-	
+
 	/*	ConnectionThread dataThread = new ConnectionThread(
 				app.yahooChart+ShareUtils.createChartLink(10, 10, 2013, 11, 10, 2013, 'w', "DELL"), threadConnectionHandler, null, this);
 		dataThread.start();
@@ -57,9 +50,9 @@ public class MainActivity extends FragmentActivity {
 		 * MSFT
 		 */
 		
-		ConnectionThread dataThread = new ConnectionThread(
+		/*ConnectionThread dataThread = new ConnectionThread(
 				app.yahooChart+ShareUtils.createChartLink(10, 10, 2013, 11, 10, 2013, 'w', "GOOG"), threadConnectionHandler, null, this);
-		dataThread.start();
+		dataThread.start();*/
 		
 	    Intent intent = getIntent();
 	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {

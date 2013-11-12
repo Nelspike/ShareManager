@@ -1,0 +1,45 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory
+        android:key="pref_graph_settings"
+        android:title="@string/graph_settings" >
+        <ListPreference
+            android:defaultValue="Daily"
+            android:summary="@string/periodicity_summary"
+            android:dialogTitle="@string/periodicity_pref"
+            android:entries="@array/periodicity_entries"
+            android:entryValues="@array/periodicity_entries_values"
+            android:key="pref_periodicity"
+            android:title="@string/periodicity_pref" />
+        <ListPreference
+            android:defaultValue="30"
+            android:summary="@string/days_summary"
+            android:dialogTitle="@string/days_pref"
+            android:entries="@array/days_entries"
+            android:entryValues="@array/days_entries_values"
+            android:key="pref_days"
+            android:title="@string/days_pref" />
+        <ListPreference
+            android:defaultValue="lin"
+            android:summary="@string/graph_summary"
+            android:dialogTitle="@string/graph_pref"
+            android:entries="@array/graph_entries"
+            android:entryValues="@array/graph_entries_values"
+            android:key="pref_graph"
+            android:title="@string/graph_pref" />
+    </PreferenceCategory>
+    
+    <PreferenceCategory
+        android:key="pref_graph_settings"
+        android:title="@string/graph_settings" >
+        <ListPreference
+            android:defaultValue="usd"
+            android:summary="@string/currency_summary"
+            android:dialogTitle="@string/currency_pref"
+            android:entries="@array/currency_entries"
+            android:entryValues="@array/currency_entries_values"
+            android:key="pref_currency"
+            android:title="@string/currency_pref" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

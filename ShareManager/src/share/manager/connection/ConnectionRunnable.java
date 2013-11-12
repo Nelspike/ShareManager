@@ -2,10 +2,12 @@ package share.manager.connection;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 
 public class ConnectionRunnable implements Runnable {
 
-	private String link, resultString;
+	private String link;
+	private ArrayList<String> resultString = new ArrayList<String>();
 	private int readTimeout = 10000, connectionTimeout = 15000;
 
 	public ConnectionRunnable(String link) {
@@ -20,9 +22,7 @@ public class ConnectionRunnable implements Runnable {
 	private void connect() {
 		HttpURLConnection con = null;
 		String line = "";
-		StringBuffer sb = new StringBuffer();
 		try {
-
 			URL url = new URL(link);
 			con = (HttpURLConnection) url.openConnection();
 			con.setReadTimeout(readTimeout);
@@ -37,10 +37,9 @@ public class ConnectionRunnable implements Runnable {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					con.getInputStream(), "UTF-8"));
 
-			while ((line = reader.readLine()) != null)
-				sb.append(line);
+			while ((line = reader.readLine()) != null) 
+				resultString.add(line);
 
-			resultString = sb.toString();
 			reader.close();
 		} catch (IOException e) {
 			//Can't connect to the server
@@ -50,26 +49,7 @@ public class ConnectionRunnable implements Runnable {
 		}
 	}
 
-	/*private String getQuery(List<NameValuePair> params)
-			throws UnsupportedEncodingException {
-		StringBuilder result = new StringBuilder();
-		boolean first = true;
-
-		for (NameValuePair pair : params) {
-			if (first)
-				first = false;
-			else
-				result.append("&");
-
-			result.append(URLEncoder.encode(pair.getName(), "UTF-8"));
-			result.append("=");
-			result.append(URLEncoder.encode(pair.getValue(), "UTF-8"));
-		}
-
-		return result.toString();
-	}*/
-
-	public String getResultObject() {
+	public ArrayList<String> getResultObject() {
 		return resultString;
 	}
 

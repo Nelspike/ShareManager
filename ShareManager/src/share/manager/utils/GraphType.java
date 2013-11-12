@@ -1,13 +1,13 @@
 package share.manager.utils;
 
-public enum Method {
-    POST("POST"),
-    GET("GET"),
-    PUT("PUT");
+public enum GraphType {
+    BAR("Bar"),
+    LINEAR("Linear"),
+    CIRCULAR("Circular");
 
     private final String name;       
 
-    private Method(String s) {
+    private GraphType(String s) {
         name = s;
     }
 
