@@ -4,5 +4,11 @@
     <string name="app_name">ShareManager</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="action_search">Search</string>
+    <string name="app_label">ShareManager</string>
+    <string name="search_hint">What company?</string>
+    <string name="description">Generic description</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_company">CompanyActivity</string>
 
 </resources>

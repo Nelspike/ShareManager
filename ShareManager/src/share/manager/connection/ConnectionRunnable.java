@@ -41,7 +41,6 @@ public class ConnectionRunnable implements Runnable {
 				sb.append(line);
 
 			resultString = sb.toString();
-
 			reader.close();
 		} catch (IOException e) {
 			//Can't connect to the server

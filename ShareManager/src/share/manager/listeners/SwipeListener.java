@@ -11,7 +11,7 @@ public class SwipeListener extends ViewPager.SimpleOnPageChangeListener {
 	
 	private ViewPager mViewPager;
 	private Context context;
-	private ShareManager app;
+	//private ShareManager app;
 	
 	public SwipeListener(ViewPager mViewPager, Context context) {
 		this.mViewPager = mViewPager;
@@ -20,7 +20,7 @@ public class SwipeListener extends ViewPager.SimpleOnPageChangeListener {
 	
 	@Override
 	public void onPageSelected(int position) {
-		this.app = (ShareManager) context.getApplicationContext();
+		//this.app = (ShareManager) context.getApplicationContext();
 		MainPagerAdapter adapter = (MainPagerAdapter) mViewPager.getAdapter();
 
 		/*if(position == 0) {
