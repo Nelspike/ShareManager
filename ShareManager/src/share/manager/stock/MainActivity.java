@@ -58,8 +58,8 @@ public class MainActivity extends FragmentActivity {
 	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 	      String query = intent.getStringExtra(SearchManager.QUERY);
 	      
-	      //This will return an adapter to place on a listview that we shall create later
-	      ShareUtils.searchInDB(MainActivity.this, query);
+	      //TODO: create a connection to this later
+	      ShareUtils.buildSearchLink(query);
 	    }
 	}
 
@@ -88,11 +88,9 @@ public class MainActivity extends FragmentActivity {
 
 		ActionBar.TabListener tabListener = new BusTabListener(mViewPager);
 
-		actionBar.addTab(actionBar.newTab().setText("Portfolio")
+		actionBar.addTab(actionBar.newTab().setText("Recent")
 				.setTabListener(tabListener));
-		actionBar.addTab(actionBar.newTab().setText("My Shares")
-				.setTabListener(tabListener));
-		actionBar.addTab(actionBar.newTab().setText("Overall Shares")
+		actionBar.addTab(actionBar.newTab().setText("Following")
 				.setTabListener(tabListener));
 	}
     
