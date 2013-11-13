@@ -14,8 +14,7 @@ public class ConnectionThread extends Thread {
 	/*private View view;
 	private ShareManager app;*/
 	
-	public ConnectionThread(String link, Handler handler,
-			/*, View view*/ Activity context) {
+	public ConnectionThread(String link, Handler handler, Activity context) {
 		runConnection = new ConnectionRunnable(link);
 		mHandler = handler;
 		//this.view = view;
@@ -27,7 +26,6 @@ public class ConnectionThread extends Thread {
 		Looper.prepare();
 		runConnection.run();
 		threadMsg();
-		
 		Looper.loop();
 	}
 
@@ -40,19 +38,5 @@ public class ConnectionThread extends Thread {
 		msgObj.obj = getResult();
 		mHandler.sendMessage(msgObj);
 	}
-	
-	
-	/*private void handleView() {
-		switch(currentFunction) {
-			case GET_CLIENT_TICKETS:
-				view.post(new ShowRunnable(app, context, view));
-				break;
-			case BUY_CLIENT_TICKETS:
-				view.post(new BuyRunnable(app, view));				
-				break;
-			default:
-				break;
-		}
-	}*/
 
 }

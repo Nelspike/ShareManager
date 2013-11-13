@@ -54,6 +54,6 @@ public class CompanyActivity extends Activity {
 			values.add(Float.parseFloat(close));
 		}
 		
-		new GraphicsBuilder(CompanyActivity.this, values, dates);
+		new GraphicsBuilder(CompanyActivity.this, values, dates, null);
 	}
 }

@@ -10,11 +10,13 @@ import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
+import org.achartengine.renderer.XYSeriesRenderer.FillOutsideLine;
 
 import share.manager.stock.R;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
+import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
@@ -29,26 +31,30 @@ public class GraphicsBuilder {
 	  /** The chart view that displays the data. */  
 	  private GraphicalView mChartView;
 	  
-	  public GraphicsBuilder(final Activity context, ArrayList<Float> stockValues, ArrayList<String> dates) {
+	  public GraphicsBuilder(final Activity context, ArrayList<Float> stockValues, ArrayList<String> dates, View view) {
 	    // set some properties on the main renderer
 	    mRenderer.setApplyBackgroundColor(true);
-	    mRenderer.setBackgroundColor(Color.argb(100, 50, 50, 50));
+	    mRenderer.setBackgroundColor(Color.argb(0, 50, 50, 50));
 	    mRenderer.setAxisTitleTextSize(25);
-	    mRenderer.setChartTitleTextSize(20);
 	    mRenderer.setLabelsTextSize(20);
 	    mRenderer.setLegendTextSize(25);
-	    mRenderer.setMargins(new int[] { 50, 50, 50, 50 });
-	    mRenderer.setZoomButtonsVisible(true);
 	    mRenderer.setPointSize(0);
 	    mRenderer.setPanEnabled(false, false);
 	    mRenderer.setZoomRate(0.1f);
 	    mRenderer.setZoomEnabled(false, false);
 	    mRenderer.setYLabelsAlign(Align.RIGHT);
 	    mRenderer.setXLabelsPadding(30);
+	    mRenderer.setMarginsColor(Color.argb(0, 50, 50, 50));
 		  
 		mChartView = ChartFactory.getLineChartView(context, mDataset, mRenderer);
 
-		LinearLayout layout = (LinearLayout) context.findViewById(R.id.chart);
+		LinearLayout layout = null;
+		
+		if(view == null)
+			layout = (LinearLayout) context.findViewById(R.id.chart);
+		else
+			layout = (LinearLayout) view.findViewById(R.id.chart_portfolio);
+			
 		layout.addView(mChartView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 		
 		XYSeries series = new XYSeries("Current Stock");
@@ -60,6 +66,11 @@ public class GraphicsBuilder {
         // set some renderer properties
         renderer.setPointStyle(PointStyle.DIAMOND);
         renderer.setFillPoints(true);
+        renderer.setColor(Color.argb(100, 35, 25, 250));
+        renderer.setLineWidth(5.0f);
+        FillOutsideLine fill = new FillOutsideLine(FillOutsideLine.Type.BOUNDS_ALL);
+        fill.setColor(Color.argb(20, 255, 255, 255));
+        renderer.addFillOutsideLine(fill);
         
         Collections.reverse(stockValues);
         Collections.reverse(dates);
@@ -79,6 +90,9 @@ public class GraphicsBuilder {
         Collections.sort(stockValues);
 	    mRenderer.setYAxisMin(stockValues.get(0)-20.0f);
 	    mRenderer.setYAxisMax(stockValues.get(stockValues.size()-1)+50.0f);
+	    
+	    mRenderer.setXAxisMin(0);
+	    mRenderer.setXAxisMax(dates.size());
         
         mChartView.repaint();
 	  }

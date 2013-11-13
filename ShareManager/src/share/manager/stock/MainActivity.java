@@ -1,14 +1,10 @@
 package share.manager.stock;
 
 import share.manager.adapters.MainPagerAdapter;
-import share.manager.connection.ConnectionThread;
 import share.manager.listeners.BusTabListener;
 import share.manager.listeners.SwipeListener;
 import share.manager.utils.ShareUtils;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.SearchManager;
 import android.content.ComponentName;
@@ -23,37 +19,19 @@ import android.view.MenuItem;
 import android.widget.SearchView;
 
 public class MainActivity extends FragmentActivity {
-
-
-	/*	ConnectionThread dataThread = new ConnectionThread(
-				app.yahooChart+ShareUtils.createChartLink(10, 10, 2013, 11, 10, 2013, 'w', "DELL"), threadConnectionHandler, null, this);
-		dataThread.start();
-	 */
 	
-	MainPagerAdapter mCentralActivity;
+	MainPagerAdapter mMainActivity;
 	private ViewPager mViewPager;
-	private ShareManager app;
+	//private ShareManager app;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		app = (ShareManager) getApplicationContext();
+		//app = (ShareManager) getApplicationContext();
 		tabHandler();
-		
-		/*
-		 * DELL
-		 * HP
-		 * GOOD
-		 * FB
-		 * MSFT
-		 */
-		
-		/*ConnectionThread dataThread = new ConnectionThread(
-				app.yahooChart+ShareUtils.createChartLink(10, 10, 2013, 11, 10, 2013, 'w', "GOOG"), threadConnectionHandler, null, this);
-		dataThread.start();*/
-		
+				
 	    Intent intent = getIntent();
 	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 	      String query = intent.getStringExtra(SearchManager.QUERY);
@@ -75,9 +53,9 @@ public class MainActivity extends FragmentActivity {
 	}
 	
 	public void tabHandler() {
-		mCentralActivity = new MainPagerAdapter(getSupportFragmentManager());
+		mMainActivity = new MainPagerAdapter(getSupportFragmentManager());
 		mViewPager = (ViewPager) findViewById(R.id.MainPager);
-		mViewPager.setAdapter(mCentralActivity);
+		mViewPager.setAdapter(mMainActivity);
 		mViewPager.setOnPageChangeListener(new SwipeListener(mViewPager, MainActivity.this));
 		//app.setAppViewPager(mViewPager);
 		
@@ -88,7 +66,7 @@ public class MainActivity extends FragmentActivity {
 
 		ActionBar.TabListener tabListener = new BusTabListener(mViewPager);
 
-		actionBar.addTab(actionBar.newTab().setText("Recent")
+		actionBar.addTab(actionBar.newTab().setText("Greatest Change")
 				.setTabListener(tabListener));
 		actionBar.addTab(actionBar.newTab().setText("Following")
 				.setTabListener(tabListener));
