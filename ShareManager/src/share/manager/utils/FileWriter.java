@@ -3,9 +3,6 @@ package share.manager.utils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Date;
-
 import android.os.Environment;
 
 public class FileWriter {

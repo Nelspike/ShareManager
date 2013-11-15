@@ -23,7 +23,8 @@ public class SettingsActivity extends PreferenceActivity {
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		OnSharedPreferenceChangeListener listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-		  public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+		  @Override
+		public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
 			  if(key.equals(KEY_PREF_PERIODICITY))
 				  app.setPeriodicity(prefs.getString(key, "d").charAt(0));
 			  else if(key.equals(KEY_PREF_DAYS))
