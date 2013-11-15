@@ -43,6 +43,8 @@ public class PortfolioFragment extends Fragment {
 					changeInfoTitle();
 					progDiag.dismiss();	
 					break;
+				default:
+					break;
 			}		
 		}
 	};
@@ -57,13 +59,6 @@ public class PortfolioFragment extends Fragment {
                 "Loading, please wait!", true);
 		
 		startQuotas();
-		
-		/*ConnectionThread dataThread = new ConnectionThread(
-				app.yahooChart+ShareUtils.createChartLink(10, 10, 2013, 11, 10, 2013, 'd', "GOOG"),
-				threadConnectionHandler, getActivity());
-		dataThread.start();
-		
-		*/
 		
 		return rootView;
 	}
@@ -81,8 +76,6 @@ public class PortfolioFragment extends Fragment {
 			link += s + "+";
 		
 		link = link.substring(0, link.length()-1);
-		
-		System.out.println(link);
 		
 		ConnectionThread dataThread = new ConnectionThread(
 				link, threadConnectionHandler, getActivity());
@@ -142,6 +135,8 @@ public class PortfolioFragment extends Fragment {
 		else {
 			//TODO: Set Negative Arrow
 		}*/
+		
+		System.out.println("Change - " + this.change);
 
 		TextView labelChange = (TextView) rootView.findViewById(R.id.company_change_portfolio);
 		labelChange.setText(this.change+"%");

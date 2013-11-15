@@ -37,9 +37,9 @@ public class ConnectionRunnable implements Runnable {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					con.getInputStream(), "UTF-8"));
 
-			while ((line = reader.readLine()) != null) 
+			while ((line = reader.readLine()) != null)
 				resultString.add(line);
-
+			
 			reader.close();
 		} catch (IOException e) {
 			//Can't connect to the server
