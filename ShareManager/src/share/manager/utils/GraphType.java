@@ -15,7 +15,8 @@ public enum GraphType {
         return (otherName == null)? false:name.equals(otherName);
     }
 
-    public String toString(){
+    @Override
+	public String toString(){
        return name;
     }
 

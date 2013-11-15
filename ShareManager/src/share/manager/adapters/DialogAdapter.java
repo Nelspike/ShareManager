@@ -39,6 +39,7 @@ public class DialogAdapter {
 		.setMessage("Can't reach the server at the moment. Restart the app, and try again.")
 		.setCancelable(false)
 		.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+			@Override
 			public void onClick(DialogInterface dialog,int id) {
 		        System.exit(0);
 			}

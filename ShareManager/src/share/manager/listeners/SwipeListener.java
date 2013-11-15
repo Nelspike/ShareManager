@@ -1,8 +1,6 @@
 package share.manager.listeners;
 
 import share.manager.adapters.MainPagerAdapter;
-import share.manager.fragments.PortfolioFragment;
-import share.manager.stock.ShareManager;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
