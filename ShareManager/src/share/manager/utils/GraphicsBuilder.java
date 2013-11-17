@@ -88,8 +88,12 @@ public class GraphicsBuilder {
 	    mRenderer.setXTitle("From " + dates.get(0) + " to " + dates.get(dates.size()-1));
         
         Collections.sort(stockValues);
-	    mRenderer.setYAxisMin(stockValues.get(0)-20.0f);
-	    mRenderer.setYAxisMax(stockValues.get(stockValues.size()-1)+50.0f);
+        if(stockValues.get(0)-20.0f >= 0)
+        	mRenderer.setYAxisMin(stockValues.get(0)-20.0f);
+        else
+        	mRenderer.setYAxisMin(0);
+        
+	    mRenderer.setYAxisMax(stockValues.get(stockValues.size()-1)+20.0f);
 	    
 	    mRenderer.setXAxisMin(0);
 	    mRenderer.setXAxisMax(dates.size());

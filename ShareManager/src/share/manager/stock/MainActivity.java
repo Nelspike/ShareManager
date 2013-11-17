@@ -1,11 +1,22 @@
 package share.manager.stock;
 
+import java.util.ArrayList;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import share.manager.adapters.MainPagerAdapter;
+import share.manager.connection.ConnectionThread;
 import share.manager.listeners.BusTabListener;
 import share.manager.listeners.SwipeListener;
+import share.manager.utils.RESTFunction;
 import share.manager.utils.ShareUtils;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -22,22 +33,55 @@ public class MainActivity extends FragmentActivity {
 	
 	MainPagerAdapter mMainActivity;
 	private ViewPager mViewPager;
+	private ProgressDialog pDiag;
+
+	private RESTFunction currentFunction;
 	//private ShareManager app;
+	
+	@SuppressLint("HandlerLeak")
+	@SuppressWarnings("unchecked")
+	private Handler threadConnectionHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch(currentFunction) {
+				case GET_COMPANY_NAMES:
+					String rec = ((ArrayList<String>) msg.obj).get(0);
+					int start = rec.indexOf("(");
+					rec = rec.substring(start, rec.length()-2);
+					
+					System.out.println(rec);
+					
+					JSONObject json = null;
+					try {
+						json = new JSONObject(rec);
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					pDiag.dismiss();
+					break;
+				default:
+					break;
+			}		
+		}
+	};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		
 		//app = (ShareManager) getApplicationContext();
-		tabHandler();
-				
+		
 	    Intent intent = getIntent();
 	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 	      String query = intent.getStringExtra(SearchManager.QUERY);
 	      
 	      //TODO: create a connection to this later
-	      ShareUtils.buildSearchLink(query);
+	      searchNew(query);
+	    }
+	    else {
+			setContentView(R.layout.activity_main);
+			tabHandler();
 	    }
 	}
 
@@ -97,5 +141,19 @@ public class MainActivity extends FragmentActivity {
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
+	}
+	
+	private void searchNew(String query) {
+		String link = ShareUtils.buildSearchLink(query);
+		     
+		System.out.println("Link - " + link);
+		
+		pDiag = ProgressDialog.show(MainActivity.this, "",
+				"Fetching results...", true);
+		
+		currentFunction = RESTFunction.GET_COMPANY_NAMES;
+		ConnectionThread dataThread = new ConnectionThread(
+			link, threadConnectionHandler, MainActivity.this);
+		dataThread.start();
 	}
 }
