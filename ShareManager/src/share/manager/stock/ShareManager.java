@@ -3,7 +3,10 @@ package share.manager.stock;
 import android.app.Application;
 
 public class ShareManager extends Application {
-
+	
+    public String KEY_PREF_PERIODICITY = "pref_periodicity";
+    public String KEY_PREF_DAYS = "pref_days";
+    public String KEY_PREF_CURRENCY = "pref_currency";
 	public String yahooChart = "http://ichart.finance.yahoo.com/table.txt?";
 	public String yahooQuote = "http://finance.yahoo.com/d/quotes?f=sl1d1t1c1&s=";
 	public String[] names = {"GOOG", "YHOO", "MSFT", "DELL", "ZONOP.LS" };
@@ -11,7 +14,7 @@ public class ShareManager extends Application {
 	
 	private char periodicity;
 	private int days;
-	private String currency, graph;
+	private String currency;
 
 	public char getPeriodicity() {
 		return periodicity;
@@ -35,14 +38,6 @@ public class ShareManager extends Application {
 
 	public void setCurrency(String currency) {
 		this.currency = currency;
-	}
-
-	public String getGraph() {
-		return graph;
-	}
-
-	public void setGraph(String graph) {
-		this.graph = graph;
 	}
 	
 }

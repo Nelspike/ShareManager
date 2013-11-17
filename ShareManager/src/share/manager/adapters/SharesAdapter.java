@@ -1,6 +1,8 @@
 package share.manager.adapters;
 
 import share.manager.stock.R;
+import share.manager.utils.FileHandler;
+import share.manager.utils.SharesGraphicsBuilder;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,16 +14,19 @@ import android.widget.TextView;
 
 public class SharesAdapter extends ArrayAdapter<String> {
 
-	private String[] strings, regions, shares;
+	private String[] strings, regions, shares, ticks;
 	private Context context;
+	private SharesGraphicsBuilder graph;	
 	
 	public SharesAdapter(Context context, int textViewResourceId, String[] objects, String[] regions,
-			String[] shares) {
+			String[] shares, String[] ticks, SharesGraphicsBuilder graph) {
 		super(context, textViewResourceId, objects);
 		this.context = context;
 		this.strings = objects;
 		this.regions = regions;
-		this.shares = shares; //x% (absolute value)
+		this.ticks = ticks;
+		this.shares = shares;
+		this.graph = graph;
 	}
 
 	@Override
@@ -35,9 +40,9 @@ public class SharesAdapter extends ArrayAdapter<String> {
 	}
 
 	public View getCustomView(int position, View convertView, ViewGroup parent) {
-
+		final int inner = position;
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-		View row = inflater.inflate(R.layout.company_box, parent, false);
+		View row = inflater.inflate(R.layout.shares_box, parent, false);
 		
 		TextView label = (TextView) row.findViewById(R.id.shares_name_box);
 		label.setText(strings[position]);
@@ -45,7 +50,7 @@ public class SharesAdapter extends ArrayAdapter<String> {
 		TextView labelRegion = (TextView) row.findViewById(R.id.shares_region_box);
 		labelRegion.setText(regions[position]);
 
-		TextView labelChange = (TextView) row.findViewById(R.id.shares_num_box);
+		final TextView labelChange = (TextView) row.findViewById(R.id.shares_num_box);
 		labelChange.setText(shares[position]);
 		
 		Button minus = (Button) row.findViewById(R.id.minus_share);
@@ -53,7 +58,13 @@ public class SharesAdapter extends ArrayAdapter<String> {
 
 			@Override
 			public void onClick(View v) {
-				// TODO: Subtract one share
+				if(labelChange.getText().toString().equals("0"))
+					return;
+				
+				//TODO: Add progress dialogs?
+				FileHandler.changeShare(ticks[inner], false);
+				labelChange.setText(FileHandler.getSharesFromTick(ticks[inner]));
+				graph.repaintGraph(FileHandler.getSharePercentages(), FileHandler.getNamesString());
 			}
 			
 		});
@@ -62,8 +73,10 @@ public class SharesAdapter extends ArrayAdapter<String> {
 		plus.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v) {
-				// TODO: Add one share
+			public void onClick(View v) {				
+				FileHandler.changeShare(ticks[inner], true);
+				labelChange.setText(FileHandler.getSharesFromTick(ticks[inner]));
+				graph.repaintGraph(FileHandler.getSharePercentages(), FileHandler.getNamesString());
 			}
 			
 		});

@@ -20,7 +20,7 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
-public class GraphicsBuilder {
+public class CompanyGraphicsBuilder {
 	
 	  /** The main dataset that includes all the series that go into a chart. */
 	  private XYMultipleSeriesDataset mDataset = new XYMultipleSeriesDataset();
@@ -31,7 +31,7 @@ public class GraphicsBuilder {
 	  /** The chart view that displays the data. */  
 	  private GraphicalView mChartView;
 	  
-	  public GraphicsBuilder(final Activity context, ArrayList<Float> stockValues, ArrayList<String> dates, View view) {
+	  public CompanyGraphicsBuilder(final Activity context, ArrayList<Float> stockValues, ArrayList<String> dates, View view) {
 	    // set some properties on the main renderer
 	    mRenderer.setApplyBackgroundColor(true);
 	    mRenderer.setBackgroundColor(Color.argb(0, 50, 50, 50));

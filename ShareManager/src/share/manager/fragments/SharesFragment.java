@@ -7,9 +7,9 @@ import share.manager.connection.ConnectionThread;
 import share.manager.stock.CompanyActivity;
 import share.manager.stock.R;
 import share.manager.stock.ShareManager;
+import share.manager.utils.FileHandler;
 import share.manager.utils.RESTFunction;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -70,20 +70,28 @@ public class SharesFragment extends Fragment {
 		currentFunction = RESTFunction.GET_COMPANY_STOCK;
 		String link = app.yahooQuote;
 		
-		for(String s : app.names)
-			link += s + "+";
+		ArrayList<String> info = FileHandler.readFile();
 		
-		link = link.substring(0, link.length()-1);
-		
-		ConnectionThread dataThread = new ConnectionThread(
-				link, threadConnectionHandler, getActivity());
-		dataThread.start();
+		if(info.size() > 0) {			
+			for(String s : info)
+				link += s.split("\\|")[1] + "+";
+			
+			link = link.substring(0, link.length()-1);
+			
+			ConnectionThread dataThread = new ConnectionThread(
+					link, threadConnectionHandler, getActivity());
+			dataThread.start();
+		}
+		else {
+			//TODO: Add some message or something
+			pDiag.dismiss();
+		}
 	}
 	
 	private void buildList(ArrayList<String> received) {
 		
-		final String[] names = app.names;
-		String[] regions = app.regions;
+		final String[] names = FileHandler.getNames();
+		String[] regions = FileHandler.getRegions();
 		
 		boolean[] status = new boolean[received.size()];
 		String[] changes = new String[received.size()];
@@ -104,7 +112,7 @@ public class SharesFragment extends Fragment {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				Intent intent = new Intent(getActivity(), CompanyActivity.class);
-				intent.putExtra("Tick", names[arg2]); //TODO: Use real tick
+				intent.putExtra("Tick", FileHandler.getTickFromName(names[arg2]));
 				startActivity(intent);
 			}
 			

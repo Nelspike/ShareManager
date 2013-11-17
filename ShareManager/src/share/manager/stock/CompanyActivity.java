@@ -1,16 +1,17 @@
 package share.manager.stock;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import share.manager.connection.ConnectionThread;
-import share.manager.utils.GraphicsBuilder;
+import share.manager.utils.CompanyGraphicsBuilder;
 import share.manager.utils.ShareUtils;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 
 public class CompanyActivity extends Activity {
 	
@@ -40,8 +41,16 @@ public class CompanyActivity extends Activity {
                 CompanyActivity.this, "",
                 "Loading, please wait!", true);
 		
+		int daysToBacktrack = app.getDays() * -1;
+		
+		Calendar backtrack = Calendar.getInstance();
+		backtrack.add(Calendar.DATE, daysToBacktrack);
+		Calendar current = Calendar.getInstance();
+		
 		ConnectionThread dataThread = new ConnectionThread(
-				app.yahooChart+ShareUtils.createChartLink(10, 11, 2013, 11, 11, 2013, 'd', tick), threadConnectionHandler, this);
+				app.yahooChart+ShareUtils.createChartLink(backtrack.get(Calendar.MONTH), backtrack.get(Calendar.DAY_OF_MONTH), backtrack.get(Calendar.YEAR),
+						current.get(Calendar.MONTH), current.get(Calendar.DAY_OF_MONTH), current.get(Calendar.YEAR), app.getPeriodicity(), tick), 
+						threadConnectionHandler, this);
 		dataThread.start();
 	}
 	
@@ -56,6 +65,6 @@ public class CompanyActivity extends Activity {
 			values.add(Float.parseFloat(close));
 		}
 		
-		new GraphicsBuilder(CompanyActivity.this, values, dates, null);
+		new CompanyGraphicsBuilder(CompanyActivity.this, values, dates, null);
 	}
 }

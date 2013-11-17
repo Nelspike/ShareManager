@@ -28,7 +28,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 		Fragment fragment = null;
 		
 		fragment = i == 0 ? new PortfolioFragment() : 
-			(i == 1 ? new SharesFragment() : new SharesFragment());
+			(i == 1 ? new SharesFragment() : new MineFragment());
 		
 		fragments.add(fragment);
 		return fragment;

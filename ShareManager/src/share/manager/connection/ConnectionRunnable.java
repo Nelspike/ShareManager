@@ -42,7 +42,11 @@ public class ConnectionRunnable implements Runnable {
 			
 			reader.close();
 		} catch (IOException e) {
-			//Can't connect to the server
+			try {
+				resultString.add(con.getResponseCode()+"");
+			} catch (IOException e1) {
+				//TODO: Can't figure response code
+			}
 		} finally {
 			if (con != null)
 				con.disconnect();
