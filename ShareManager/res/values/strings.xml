@@ -12,6 +12,8 @@
     <string name="title_activity_company">CompanyActivity</string>
     <string name="graph_settings">Charts</string>
     <string name="other_settings">Other</string>
+    <string name="plus_sign">+</string>
+    <string name="minus_sign">-</string>
     
     <string name="periodicity_pref">Periodicity of shares</string>
     <string name="periodicity_summary">Define how periodically shares will be displayed in charts</string>

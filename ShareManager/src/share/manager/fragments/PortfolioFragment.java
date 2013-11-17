@@ -85,7 +85,7 @@ public class PortfolioFragment extends Fragment {
 		change = -1000.0f;
 		name = "";
 		
-		for(int i = 1; i < received.size(); i++) {
+		for(int i = 0; i < received.size(); i++) {
 			String[] split = received.get(i).split(",");
 			String name = split[0];
 			String changeText = split[4];
@@ -134,8 +134,6 @@ public class PortfolioFragment extends Fragment {
 		else {
 			//TODO: Set Negative Arrow
 		}*/
-		
-		System.out.println("Change - " + this.change);
 
 		TextView labelChange = (TextView) rootView.findViewById(R.id.company_change_portfolio);
 		labelChange.setText(this.change+"%");

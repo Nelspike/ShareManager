@@ -45,7 +45,7 @@ public class GraphicsBuilder {
 	    mRenderer.setYLabelsAlign(Align.RIGHT);
 	    mRenderer.setXLabelsPadding(30);
 	    mRenderer.setMarginsColor(Color.argb(0, 50, 50, 50));
-		  
+		
 		mChartView = ChartFactory.getLineChartView(context, mDataset, mRenderer);
 
 		LinearLayout layout = null;

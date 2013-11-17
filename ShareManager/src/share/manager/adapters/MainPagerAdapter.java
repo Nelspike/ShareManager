@@ -16,7 +16,7 @@ import android.view.View;
 
 public class MainPagerAdapter extends FragmentStatePagerAdapter {
 	
-	private int nSwipes = 2;
+	private int nSwipes = 3;
 	private ArrayList<Fragment> fragments = new ArrayList<Fragment>();
 	
 	public MainPagerAdapter(FragmentManager fm) {
@@ -27,7 +27,8 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 	public Fragment getItem(int i) {
 		Fragment fragment = null;
 		
-		fragment = i == 0 ? new PortfolioFragment() : new SharesFragment();
+		fragment = i == 0 ? new PortfolioFragment() : 
+			(i == 1 ? new SharesFragment() : new SharesFragment());
 		
 		fragments.add(fragment);
 		return fragment;
@@ -49,6 +50,9 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 	             break;
 	         case 1:
 	             resId = R.layout.fragment_shares;
+	             break;
+	         case 2:
+	             resId = R.layout.fragment_mine;
 	             break;
          }
          

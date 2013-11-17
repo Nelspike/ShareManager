@@ -2,9 +2,11 @@ package share.manager.stock;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import share.manager.adapters.CompanyAdapter;
 import share.manager.adapters.MainPagerAdapter;
 import share.manager.connection.ConnectionThread;
 import share.manager.listeners.BusTabListener;
@@ -27,6 +29,10 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 import android.widget.SearchView;
 
 public class MainActivity extends FragmentActivity {
@@ -34,7 +40,6 @@ public class MainActivity extends FragmentActivity {
 	MainPagerAdapter mMainActivity;
 	private ViewPager mViewPager;
 	private ProgressDialog pDiag;
-
 	private RESTFunction currentFunction;
 	//private ShareManager app;
 	
@@ -47,17 +52,16 @@ public class MainActivity extends FragmentActivity {
 				case GET_COMPANY_NAMES:
 					String rec = ((ArrayList<String>) msg.obj).get(0);
 					int start = rec.indexOf("(");
-					rec = rec.substring(start, rec.length()-2);
-					
-					System.out.println(rec);
+					rec = rec.substring(start+1, rec.length()-1);
 					
 					JSONObject json = null;
 					try {
 						json = new JSONObject(rec);
 					} catch (JSONException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					
+					parseJSON(json);
 					
 					pDiag.dismiss();
 					break;
@@ -74,10 +78,11 @@ public class MainActivity extends FragmentActivity {
 		
 	    Intent intent = getIntent();
 	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-	      String query = intent.getStringExtra(SearchManager.QUERY);
-	      
-	      //TODO: create a connection to this later
-	      searchNew(query);
+		setContentView(R.layout.list_results);
+		String query = intent.getStringExtra(SearchManager.QUERY);
+		  
+		//TODO: create a connection to this later
+		searchNew(query);
 	    }
 	    else {
 			setContentView(R.layout.activity_main);
@@ -114,6 +119,8 @@ public class MainActivity extends FragmentActivity {
 				.setTabListener(tabListener));
 		actionBar.addTab(actionBar.newTab().setText("Following")
 				.setTabListener(tabListener));
+		actionBar.addTab(actionBar.newTab().setText("My Shares")
+				.setTabListener(tabListener));
 	}
     
 	@Override
@@ -145,8 +152,6 @@ public class MainActivity extends FragmentActivity {
 	
 	private void searchNew(String query) {
 		String link = ShareUtils.buildSearchLink(query);
-		     
-		System.out.println("Link - " + link);
 		
 		pDiag = ProgressDialog.show(MainActivity.this, "",
 				"Fetching results...", true);
@@ -155,5 +160,53 @@ public class MainActivity extends FragmentActivity {
 		ConnectionThread dataThread = new ConnectionThread(
 			link, threadConnectionHandler, MainActivity.this);
 		dataThread.start();
+	}
+	
+	private void parseJSON(JSONObject query) {
+		JSONObject resultsSet = null;
+		
+		try {
+			resultsSet = query.getJSONObject("ResultSet");
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+				
+		JSONArray results = null;
+		ListView listResults = (ListView) findViewById(R.id.list_search_results);
+		try {
+			results = resultsSet.getJSONArray("Result");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		ArrayList<String> ticks = new ArrayList<String>(), 
+				names = new ArrayList<String>(), 
+				regions = new ArrayList<String>();
+
+		for (int i = 0; i < results.length(); i++) {
+			try {
+				JSONObject innerObject = results.getJSONObject(i);
+				ticks.add(innerObject.getString("symbol"));
+				names.add(innerObject.getString("name"));
+				regions.add(innerObject.getString("exchDisp"));
+			} catch (JSONException e) {
+				// TODO: To handle later
+			}
+		}
+		
+		listResults.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				//arg2 == position (0 -->)
+				//TODO: Save to file corresponding name, tick, region and a 0
+			}
+			
+		});
+		
+		listResults.setAdapter(new CompanyAdapter(MainActivity.this, R.layout.company_box, 
+				names.toArray(new String[names.size()]), regions.toArray(new String[regions.size()]),
+				null, null));
+		
 	}
 }

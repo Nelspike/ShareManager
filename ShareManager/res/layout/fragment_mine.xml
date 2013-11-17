@@ -2,10 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SharesFragment" >
-    
+    tools:context=".PortfolioFragment" >
+        
 	<ListView
-	    android:id="@+id/list_share_following"
+	    android:id="@+id/list_my_shares"
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent" >
 	</ListView>

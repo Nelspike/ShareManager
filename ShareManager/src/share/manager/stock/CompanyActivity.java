@@ -32,6 +32,8 @@ public class CompanyActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_company);
 		
+		String tick = getIntent().getStringExtra("Tick");
+		
 		app = (ShareManager) getApplicationContext();
 		
 		progDiag = ProgressDialog.show(
@@ -39,7 +41,7 @@ public class CompanyActivity extends Activity {
                 "Loading, please wait!", true);
 		
 		ConnectionThread dataThread = new ConnectionThread(
-				app.yahooChart+ShareUtils.createChartLink(10, 11, 2013, 11, 11, 2013, 'd', "FB"), threadConnectionHandler, this);
+				app.yahooChart+ShareUtils.createChartLink(10, 11, 2013, 11, 11, 2013, 'd', tick), threadConnectionHandler, this);
 		dataThread.start();
 	}
 	
