@@ -149,6 +149,7 @@ public class PortfolioFragment extends Fragment {
 
 		tick = tick.replace("\"", "");
 		String info = FileHandler.getInfoFromTick(tick);
+		System.out.println(info);
 		String[] allInfo = info.split("\\|");
 		this.name = allInfo[0];
 		this.region = allInfo[2];

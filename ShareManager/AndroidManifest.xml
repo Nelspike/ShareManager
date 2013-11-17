@@ -16,7 +16,7 @@
     <application
         android:name="share.manager.stock.ShareManager"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/share_icon"
         android:theme="@style/AppTheme" >
         <activity
             android:name="share.manager.stock.MainActivity"

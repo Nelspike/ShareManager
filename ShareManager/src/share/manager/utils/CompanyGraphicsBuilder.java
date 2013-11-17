@@ -40,7 +40,7 @@ public class CompanyGraphicsBuilder {
 		this.view = view;
 		mRenderer.setApplyBackgroundColor(true);
 		mRenderer.setBackgroundColor(Color.argb(0, 50, 50, 50));
-		mRenderer.setAxisTitleTextSize(25);
+		mRenderer.setAxisTitleTextSize(35);
 		mRenderer.setLabelsTextSize(20);
 		mRenderer.setLegendTextSize(25);
 		mRenderer.setPointSize(0);
@@ -61,8 +61,8 @@ public class CompanyGraphicsBuilder {
 		else
 			layout = (LinearLayout) view.findViewById(R.id.chart_portfolio);
 
-		layout.addView(mChartView, new LayoutParams(LayoutParams.MATCH_PARENT,
-				LayoutParams.MATCH_PARENT));
+		layout.addView(mChartView, new LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT));
 
 		XYSeries series = new XYSeries("Current Stock");
 		mDataset.addSeries(series);
@@ -161,8 +161,8 @@ public class CompanyGraphicsBuilder {
 		LinearLayout layout = (LinearLayout) this.view.findViewById(R.id.chart_portfolio);
 		layout.removeAllViews();
 		mChartView = ChartFactory.getLineChartView(context, mDataset, mRenderer);
-		layout.addView(mChartView, new LayoutParams(LayoutParams.MATCH_PARENT,
-				LayoutParams.MATCH_PARENT));
+		layout.addView(mChartView, new LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT));
 		mChartView.repaint();
 	}
 }

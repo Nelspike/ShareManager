@@ -128,7 +128,7 @@ public class SharesFragment extends Fragment {
 	
 	private void buildList(ArrayList<String> received) {
 		
-		final String[] names = FileHandler.getNames();
+		final String[] names = FileHandler.getNames(), ticks = FileHandler.getTicks();
 		String[] regions = FileHandler.getRegions();
 		
 		boolean[] status = new boolean[received.size()];
@@ -150,7 +150,7 @@ public class SharesFragment extends Fragment {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				Intent intent = new Intent(getActivity(), CompanyActivity.class);
-				intent.putExtra("Tick", FileHandler.getTickFromName(names[arg2]));
+				intent.putExtra("Tick", FileHandler.getInfoFromTick(ticks[arg2]));
 				startActivity(intent);
 			}
 			

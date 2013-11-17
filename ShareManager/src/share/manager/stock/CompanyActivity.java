@@ -17,6 +17,7 @@ public class CompanyActivity extends Activity {
 	
 	private ShareManager app;
 	private ProgressDialog progDiag;
+	private String name, tick, region, stock;
 	
 	@SuppressLint("HandlerLeak")
 	@SuppressWarnings("unchecked")
@@ -33,7 +34,14 @@ public class CompanyActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_company);
 		
-		String tick = getIntent().getStringExtra("Tick");
+		String info = getIntent().getStringExtra("Tick");
+		String[] splitUp = info.split("\\|");
+		this.name = splitUp[0];
+		this.tick = splitUp[1];
+		this.region = splitUp[2];
+		this.stock = splitUp[3];
+		
+		setTitle(this.name);
 		
 		app = (ShareManager) getApplicationContext();
 		
@@ -49,7 +57,7 @@ public class CompanyActivity extends Activity {
 		
 		ConnectionThread dataThread = new ConnectionThread(
 				app.yahooChart+ShareUtils.createChartLink(backtrack.get(Calendar.MONTH), backtrack.get(Calendar.DAY_OF_MONTH), backtrack.get(Calendar.YEAR),
-						current.get(Calendar.MONTH), current.get(Calendar.DAY_OF_MONTH), current.get(Calendar.YEAR), app.getPeriodicity(), tick), 
+						current.get(Calendar.MONTH), current.get(Calendar.DAY_OF_MONTH), current.get(Calendar.YEAR), app.getPeriodicity(), this.tick), 
 						threadConnectionHandler, this);
 		dataThread.start();
 	}

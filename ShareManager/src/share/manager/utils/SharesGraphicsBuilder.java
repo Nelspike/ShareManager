@@ -17,7 +17,8 @@ import android.widget.LinearLayout;
 
 public class SharesGraphicsBuilder {
 
-	private static int[] COLORS = new int[] { Color.GREEN, Color.BLUE, Color.MAGENTA, Color.CYAN };
+	private static int[] COLORS = new int[] { Color.argb(100,48,55,255), Color.argb(100,36,99,4), Color.argb(100,250,133,50),
+												Color.argb(100,255,51,51), Color.argb(100,252,189,0), Color.argb(100,108,1,122)};
 	private CategorySeries mSeries = new CategorySeries("");
 	private DefaultRenderer mRenderer = new DefaultRenderer();
 	private GraphicalView mChartView;	
@@ -36,7 +37,7 @@ public class SharesGraphicsBuilder {
 		mRenderer.setPanEnabled(false);
 
 		for (int i = 0; i < stockValues.size(); i++) {
-			mSeries.add(names.get(i) + " " + stockValues.get(i), stockValues.get(i));
+			mSeries.add(names.get(i) + " " + stockValues.get(i) + "%", stockValues.get(i));
 			SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
 			renderer.setColor(COLORS[(mSeries.getItemCount() - 1) % COLORS.length]);
 			mRenderer.addSeriesRenderer(renderer);
@@ -53,7 +54,7 @@ public class SharesGraphicsBuilder {
 		mRenderer.removeAllRenderers();
 		mSeries.clear();
 		for (int i = 0; i < stockValues.size(); i++) {
-			mSeries.add(names.get(i) + " " + stockValues.get(i), stockValues.get(i));
+			mSeries.add(names.get(i) + " " + stockValues.get(i) + "%", stockValues.get(i));
 			SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
 			renderer.setColor(COLORS[(mSeries.getItemCount() - 1) % COLORS.length]);
 			mRenderer.addSeriesRenderer(renderer);

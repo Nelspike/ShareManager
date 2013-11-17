@@ -124,8 +124,10 @@ public class MineFragment extends Fragment {
 	
 	private void startFiles() {
 		ListView listMyShares = (ListView) rootView.findViewById(R.id.list_my_shares);
-		String[] names = FileHandler.getNames(), regions = FileHandler.getRegions(), shares = FileHandler.getShares(), ticks = FileHandler.getTicks();
-		
+		final String[] names = FileHandler.getNames();
+		String[] regions = FileHandler.getRegions(), shares = FileHandler.getShares();
+		final String[] ticks = FileHandler.getTicks();
+
 		listMyShares.setAdapter(new SharesAdapter(getActivity(), R.layout.shares_box, names, regions, shares, ticks, graph));
 	}
 }
