@@ -9,8 +9,8 @@ public class ShareManager extends Application {
     public String KEY_PREF_CURRENCY = "pref_currency";
 	public String yahooChart = "http://ichart.finance.yahoo.com/table.txt?";
 	public String yahooQuote = "http://finance.yahoo.com/d/quotes?f=sl1d1t1c1&s=";
-	public String[] names = {"GOOG", "YHOO", "MSFT", "DELL", "ZONOP.LS" };
-	public String[] regions = {"NASDAQ", "NASDAQ", "NASDAQ", "NASDAQ", "NASDAQ" };
+	/*public String[] names = {"GOOG", "YHOO", "MSFT", "DELL", "ZONOP.LS" };
+	public String[] regions = {"NASDAQ", "NASDAQ", "NASDAQ", "NASDAQ", "NASDAQ" };*/
 	
 	private char periodicity;
 	private int days;

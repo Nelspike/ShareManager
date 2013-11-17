@@ -12,16 +12,21 @@ import share.manager.utils.RESTFunction;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class SharesFragment extends Fragment {
 
@@ -29,6 +34,7 @@ public class SharesFragment extends Fragment {
 	private ShareManager app;
 	private RESTFunction currentFunction;
 	private ProgressDialog pDiag;
+	private boolean resuming = false;
 	
 	@SuppressLint("HandlerLeak")
 	@SuppressWarnings("unchecked")
@@ -38,7 +44,7 @@ public class SharesFragment extends Fragment {
 			switch(currentFunction) {
 				case GET_COMPANY_STOCK:
 					buildList((ArrayList<String>) msg.obj);
-					pDiag.dismiss();
+					if(pDiag != null) pDiag.dismiss();
 					break;
 				default:
 					break;
@@ -51,28 +57,43 @@ public class SharesFragment extends Fragment {
 		setRetainInstance(true);
 		rootView = inflater.inflate(R.layout.fragment_shares, container, false);
 		app = (ShareManager) getActivity().getApplication();
-		
 		startQuotas();
-		
 		return rootView;
 	}
 	
+	@Override
+	public void onResume() {
+		super.onResume();
+		if(resuming) {
+			refresh();
+			resuming = !resuming;
+		}
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		resuming = true;
+	}
 	
 	public void refresh() {
-		//Do refresh stuff
+		pDiag = ProgressDialog.show(getActivity(), "",
+				"Fetching results...", true);
+		startQuotas();
 	}
 	
 	public void startQuotas() {
-		
-		pDiag = ProgressDialog.show(getActivity(), "",
-				"Fetching results...", true);
-		
 		currentFunction = RESTFunction.GET_COMPANY_STOCK;
 		String link = app.yahooQuote;
 		
 		ArrayList<String> info = FileHandler.readFile();
 		
-		if(info.size() > 0) {			
+		if(info.size() > 0) {
+			FrameLayout frame = (FrameLayout) rootView.findViewById(R.id.frame_shares);
+			if(frame.findViewById(0xfefefefe) != null) {
+				frame.removeView(frame.findViewById(0xfefefefe));
+			}
+			
 			for(String s : info)
 				link += s.split("\\|")[1] + "+";
 			
@@ -83,8 +104,25 @@ public class SharesFragment extends Fragment {
 			dataThread.start();
 		}
 		else {
-			//TODO: Add some message or something
-			pDiag.dismiss();
+			FrameLayout frame = (FrameLayout) rootView.findViewById(R.id.frame_shares);
+			if(frame.findViewById(0xfefefefe) != null) {
+				TextView text = (TextView) frame.findViewById(0xfefefefe);
+				text.setText("Please subscribe to a company in order to see its stock evolution!");
+				text.setTextColor(Color.WHITE);
+				text.setTextSize(25.0f);
+				text.setGravity(Gravity.CENTER);
+			}
+			else {
+				TextView text = new TextView(getActivity());
+				text.setId(0xfefefefe);
+				text.setText("Please subscribe to a company in order to see its stock evolution!");
+				text.setTextColor(Color.WHITE);
+				text.setTextSize(25.0f);
+				text.setGravity(Gravity.CENTER);
+				frame.addView(text, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+			}
+			if(pDiag != null)
+				pDiag.dismiss();
 		}
 	}
 	

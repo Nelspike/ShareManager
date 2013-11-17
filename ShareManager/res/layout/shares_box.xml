@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="20dp" >
+    android:layout_height="60dp"
+    android:layout_margin="20dp"
+    android:padding="10dp" >
 
     <TableRow
         android:layout_width="match_parent"

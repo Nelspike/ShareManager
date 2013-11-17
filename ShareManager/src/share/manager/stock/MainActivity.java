@@ -22,6 +22,8 @@ import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,7 +41,7 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements OnSharedPreferenceChangeListener {
 	
 	MainPagerAdapter mMainActivity;
 	private ViewPager mViewPager;
@@ -50,7 +52,7 @@ public class MainActivity extends FragmentActivity {
 	private ShareManager app;
 	private Toast toast;
 	private final ArrayList<String> ticks = new ArrayList<String>(), names = new ArrayList<String>(), regions = new ArrayList<String>();
-	 
+	private SharedPreferences prefs;
 	
 	@SuppressLint("HandlerLeak")
 	@SuppressWarnings("unchecked")
@@ -99,6 +101,7 @@ public class MainActivity extends FragmentActivity {
 		app.setPeriodicity(((String) PreferenceManager.getDefaultSharedPreferences(this).getAll().get(app.KEY_PREF_PERIODICITY)).charAt(0));
 		app.setDays(Integer.parseInt(((String) PreferenceManager.getDefaultSharedPreferences(this).getAll().get(app.KEY_PREF_DAYS))));
 		app.setCurrency((String) PreferenceManager.getDefaultSharedPreferences(this).getAll().get(app.KEY_PREF_CURRENCY));
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		
 	    Intent intent = getIntent();
 	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
@@ -128,6 +131,7 @@ public class MainActivity extends FragmentActivity {
 		mViewPager = (ViewPager) findViewById(R.id.MainPager);
 		mViewPager.setAdapter(mMainActivity);
 		mViewPager.setOnPageChangeListener(new SwipeListener(mViewPager, MainActivity.this));
+		mViewPager.setOffscreenPageLimit(2);
 		//app.setAppViewPager(mViewPager);
 		
 		final ActionBar actionBar = getActionBar();
@@ -137,11 +141,11 @@ public class MainActivity extends FragmentActivity {
 
 		ActionBar.TabListener tabListener = new BusTabListener(mViewPager);
 
-		actionBar.addTab(actionBar.newTab().setText("Greatest Change")
+		actionBar.addTab(actionBar.newTab().setText("My Shares")
 				.setTabListener(tabListener));
 		actionBar.addTab(actionBar.newTab().setText("Following")
 				.setTabListener(tabListener));
-		actionBar.addTab(actionBar.newTab().setText("My Shares")
+		actionBar.addTab(actionBar.newTab().setText("Latest")
 				.setTabListener(tabListener));
 	}
     
@@ -166,6 +170,7 @@ public class MainActivity extends FragmentActivity {
 	        case R.id.action_settings:
 	            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
 	            startActivity(intent);
+	            prefs.registerOnSharedPreferenceChangeListener(this);
 	            return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
@@ -275,5 +280,15 @@ public class MainActivity extends FragmentActivity {
 			toast = Toast.makeText(MainActivity.this, st, Toast.LENGTH_SHORT);
 		}
 		toast.show();
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+		if (key.equals(app.KEY_PREF_PERIODICITY))
+			app.setPeriodicity(prefs.getString(key, "d").charAt(0));
+		else if (key.equals(app.KEY_PREF_DAYS))
+			app.setDays(Integer.parseInt(prefs.getString(key, "30")));
+		else if (key.equals(app.KEY_PREF_CURRENCY))
+			app.setCurrency(prefs.getString(key, "usd"));
 	}
 }

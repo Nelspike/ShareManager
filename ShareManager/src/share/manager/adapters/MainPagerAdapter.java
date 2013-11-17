@@ -27,8 +27,8 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 	public Fragment getItem(int i) {
 		Fragment fragment = null;
 		
-		fragment = i == 0 ? new PortfolioFragment() : 
-			(i == 1 ? new SharesFragment() : new MineFragment());
+		fragment = i == 0 ? new MineFragment() : 
+			(i == 1 ? new SharesFragment() : new PortfolioFragment() );
 		
 		fragments.add(fragment);
 		return fragment;
@@ -46,13 +46,13 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
          int resId = 0;
          switch (position) {
 	         case 0:
-	             resId = R.layout.fragment_portfolio;
+	             resId = R.layout.fragment_mine;
 	             break;
 	         case 1:
 	             resId = R.layout.fragment_shares;
 	             break;
 	         case 2:
-	             resId = R.layout.fragment_mine;
+	             resId = R.layout.fragment_portfolio;
 	             break;
          }
          
