@@ -26,7 +26,6 @@ public class MineFragment extends Fragment {
 
 	private View rootView;
 	private SharesGraphicsBuilder graph;
-	private boolean resuming = false;
 	
 	@SuppressLint("HandlerLeak")
 	private Handler threadConnectionHandler = new Handler() {
@@ -69,21 +68,6 @@ public class MineFragment extends Fragment {
 			}
 		}
 		return rootView;
-	}
-	
-	@Override
-	public void onResume() {
-		super.onResume();
-		if(resuming) {
-			refresh();
-			resuming = !resuming;
-		}
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-		resuming = true;
 	}
 	
 	public void refresh() {

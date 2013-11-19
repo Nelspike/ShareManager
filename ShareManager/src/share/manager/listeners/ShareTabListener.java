@@ -5,11 +5,11 @@ import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 
-public class BusTabListener implements ActionBar.TabListener{
+public class ShareTabListener implements ActionBar.TabListener{
 
 	private ViewPager mViewPager;
 	
-	public BusTabListener(ViewPager mViewPager) {
+	public ShareTabListener(ViewPager mViewPager) {
 		this.mViewPager = mViewPager;
 	}
 	

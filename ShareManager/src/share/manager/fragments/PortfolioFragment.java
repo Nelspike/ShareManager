@@ -6,11 +6,12 @@ import java.util.Calendar;
 import share.manager.connection.ConnectionThread;
 import share.manager.stock.R;
 import share.manager.stock.ShareManager;
-import share.manager.utils.FileHandler;
 import share.manager.utils.CompanyGraphicsBuilder;
+import share.manager.utils.FileHandler;
 import share.manager.utils.RESTFunction;
 import share.manager.utils.ShareUtils;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -36,6 +37,8 @@ public class PortfolioFragment extends Fragment {
 	private boolean status, resuming = false;
 	private String name, region;
 	private CompanyGraphicsBuilder graph;
+	private Activity mActivity;
+	private boolean firstTime = true;
 
 	@SuppressLint("HandlerLeak")
 	@SuppressWarnings("unchecked")
@@ -44,27 +47,31 @@ public class PortfolioFragment extends Fragment {
 		public void handleMessage(Message msg) {
 			switch(currentFunction) {
 				case GET_COMPANY_STOCK_PORTFOLIO:
-					compareChanges((ArrayList<String>) msg.obj);
+					if(msg.what == currentFunction.toInt())
+						compareChanges((ArrayList<String>) msg.obj);
 					break;
 				case GET_COMPANY_RANGE_STOCK_PORTFOLIO:
-					createGraph((ArrayList<String>) msg.obj);
-					changeInfoTitle();
-					if(progDiag != null)
-						progDiag.dismiss();	
+					if(msg.what == currentFunction.toInt()) {
+						createGraph((ArrayList<String>) msg.obj);
+						changeInfoTitle();
+						dismissProgressDialog();
+					}
 					break;
 				default:
 					break;
 			}		
 		}
 	};
-	
+		
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		setRetainInstance(true);
 		rootView = inflater.inflate(R.layout.fragment_portfolio, container, false);
-		app = (ShareManager) getActivity().getApplication();
-		startQuotas();
-		
+		app = (ShareManager) mActivity.getApplication();
+		if(firstTime) {
+			firstTime = false;
+			startQuotas();
+		}
 		return rootView;
 	}
 	
@@ -78,16 +85,21 @@ public class PortfolioFragment extends Fragment {
 
 	public void onStop() {
 		super.onStop();
-		resuming = true;
+		this.resuming = app.isAccessedSettings() ? true : false;
 	}
 	
+	@Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mActivity = activity;
+    }
+	
 	public void refresh() {
-		startQuotas();
+		if(!firstTime) startQuotas();
 	}
 	
 	public void startQuotas() {
-		progDiag = ProgressDialog.show(getActivity(), "",
-                "Obtaining information...", true);
+		showProgressDialog("Obtaining information..");
 		currentFunction = RESTFunction.GET_COMPANY_STOCK_PORTFOLIO;
 		String link = app.yahooQuote;
 		
@@ -105,7 +117,7 @@ public class PortfolioFragment extends Fragment {
 			link = link.substring(0, link.length()-1);
 			
 			ConnectionThread dataThread = new ConnectionThread(
-					link, threadConnectionHandler, getActivity());
+					link, threadConnectionHandler, mActivity, currentFunction);
 			dataThread.start();
 		}
 		else {
@@ -118,7 +130,7 @@ public class PortfolioFragment extends Fragment {
 				text.setGravity(Gravity.CENTER);
 			}
 			else {
-				TextView text = new TextView(getActivity());
+				TextView text = new TextView(mActivity);
 				text.setId(0xfefefefe);
 				text.setText("Please subscribe to a company in order to see its stock evolution!");
 				text.setTextColor(Color.WHITE);
@@ -126,8 +138,7 @@ public class PortfolioFragment extends Fragment {
 				text.setGravity(Gravity.CENTER);
 				frame.addView(text, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 			}
-			if(progDiag != null)
-				progDiag.dismiss();
+			dismissProgressDialog();
 		}
 	}
 	
@@ -149,11 +160,9 @@ public class PortfolioFragment extends Fragment {
 
 		tick = tick.replace("\"", "");
 		String info = FileHandler.getInfoFromTick(tick);
-		System.out.println(info);
 		String[] allInfo = info.split("\\|");
 		this.name = allInfo[0];
 		this.region = allInfo[2];
-		
 		currentFunction = RESTFunction.GET_COMPANY_RANGE_STOCK_PORTFOLIO;
 		
 		int daysToBacktrack = app.getDays() * -1;
@@ -161,11 +170,11 @@ public class PortfolioFragment extends Fragment {
 		Calendar backtrack = Calendar.getInstance();
 		backtrack.add(Calendar.DATE, daysToBacktrack);
 		Calendar current = Calendar.getInstance();
-		
+				
 		ConnectionThread dataThread = new ConnectionThread(
 				app.yahooChart+ShareUtils.createChartLink(backtrack.get(Calendar.MONTH), backtrack.get(Calendar.DAY_OF_MONTH), backtrack.get(Calendar.YEAR),
 						current.get(Calendar.MONTH), current.get(Calendar.DAY_OF_MONTH), current.get(Calendar.YEAR), app.getPeriodicity(), tick), 
-						threadConnectionHandler, getActivity());
+						threadConnectionHandler, mActivity, currentFunction);
 		dataThread.start();
 		
 	}
@@ -175,14 +184,13 @@ public class PortfolioFragment extends Fragment {
 		ArrayList<Float> values = new ArrayList<Float>();
 		
 		for(int i = 1; i < received.size(); i++) {
-			//System.out.println(received.get(i));
 			String[] split = received.get(i).split(",");
 			String close = split[4];
 			dates.add(split[0].split("-")[2]+"/"+split[0].split("-")[1]);
 			values.add(Float.parseFloat(close));
 		}
 		
-		if(!resuming) graph = new CompanyGraphicsBuilder(getActivity(), values, dates, rootView);
+		if(!resuming) graph = new CompanyGraphicsBuilder(mActivity, values, dates, rootView);
 		else graph.repaintGraph(values, dates);
 	}
 	
@@ -196,8 +204,8 @@ public class PortfolioFragment extends Fragment {
 		ImageView arrow = (ImageView) rootView.findViewById(R.id.company_arrow_portfolio);
 		
 		if(this.change != 0.0f) {
-			if(status) arrow.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.upper_arrow));
-			else arrow.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.down_arrow));
+			if(status) arrow.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.upper_arrow));
+			else arrow.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.down_arrow));
 		}
 
 		TextView labelChange = (TextView) rootView.findViewById(R.id.company_change_portfolio);
@@ -205,4 +213,18 @@ public class PortfolioFragment extends Fragment {
 		
 		if(resuming) resuming = !resuming;
 	}
+	
+	public void showProgressDialog(CharSequence message) {
+		progDiag = new ProgressDialog(mActivity);
+	        if (progDiag == null)
+	        	progDiag.setIndeterminate(true);
+
+	        progDiag.setMessage(message);
+	        progDiag.show();
+	    }
+
+    public void dismissProgressDialog() {
+        if (progDiag != null)
+        	progDiag.dismiss();
+    }
 }

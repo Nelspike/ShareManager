@@ -10,6 +10,7 @@ import share.manager.stock.ShareManager;
 import share.manager.utils.FileHandler;
 import share.manager.utils.RESTFunction;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -34,7 +35,8 @@ public class SharesFragment extends Fragment {
 	private ShareManager app;
 	private RESTFunction currentFunction;
 	private ProgressDialog pDiag;
-	private boolean resuming = false;
+	private Activity mActivity;
+	private boolean firstTime = true;
 	
 	@SuppressLint("HandlerLeak")
 	@SuppressWarnings("unchecked")
@@ -44,7 +46,7 @@ public class SharesFragment extends Fragment {
 			switch(currentFunction) {
 				case GET_COMPANY_STOCK:
 					buildList((ArrayList<String>) msg.obj);
-					if(pDiag != null) pDiag.dismiss();
+					dismissProgressDialog();
 					break;
 				default:
 					break;
@@ -56,30 +58,25 @@ public class SharesFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		setRetainInstance(true);
 		rootView = inflater.inflate(R.layout.fragment_shares, container, false);
-		app = (ShareManager) getActivity().getApplication();
-		startQuotas();
+		app = (ShareManager) mActivity.getApplication();
+		if(firstTime) {
+			firstTime = false;
+			startQuotas();
+		}
 		return rootView;
 	}
 	
 	@Override
-	public void onResume() {
-		super.onResume();
-		if(resuming) {
-			refresh();
-			resuming = !resuming;
-		}
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-		resuming = true;
-	}
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mActivity = activity;
+    }
 	
 	public void refresh() {
-		pDiag = ProgressDialog.show(getActivity(), "",
-				"Fetching results...", true);
-		startQuotas();
+		if(!firstTime) {
+			showProgressDialog("Fetching results..");
+			startQuotas();
+		}
 	}
 	
 	public void startQuotas() {
@@ -100,7 +97,7 @@ public class SharesFragment extends Fragment {
 			link = link.substring(0, link.length()-1);
 			
 			ConnectionThread dataThread = new ConnectionThread(
-					link, threadConnectionHandler, getActivity());
+					link, threadConnectionHandler, mActivity, currentFunction);
 			dataThread.start();
 		}
 		else {
@@ -113,7 +110,7 @@ public class SharesFragment extends Fragment {
 				text.setGravity(Gravity.CENTER);
 			}
 			else {
-				TextView text = new TextView(getActivity());
+				TextView text = new TextView(mActivity);
 				text.setId(0xfefefefe);
 				text.setText("Please subscribe to a company in order to see its stock evolution!");
 				text.setTextColor(Color.WHITE);
@@ -121,8 +118,7 @@ public class SharesFragment extends Fragment {
 				text.setGravity(Gravity.CENTER);
 				frame.addView(text, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 			}
-			if(pDiag != null)
-				pDiag.dismiss();
+			dismissProgressDialog();
 		}
 	}
 	
@@ -149,14 +145,28 @@ public class SharesFragment extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				Intent intent = new Intent(getActivity(), CompanyActivity.class);
+				Intent intent = new Intent(mActivity, CompanyActivity.class);
 				intent.putExtra("Tick", FileHandler.getInfoFromTick(ticks[arg2]));
 				startActivity(intent);
 			}
 			
 		});
 		
-		listResults.setAdapter(new CompanyAdapter(getActivity(), R.layout.company_box, 
+		listResults.setAdapter(new CompanyAdapter(mActivity, R.layout.company_box, 
 				names, regions, status, changes));
 	}
+	
+	public void showProgressDialog(CharSequence message) {
+		pDiag = new ProgressDialog(mActivity);
+	        if (pDiag == null)
+	        	pDiag.setIndeterminate(true);
+
+	        pDiag.setMessage(message);
+	        pDiag.show();
+	    }
+
+    public void dismissProgressDialog() {
+        if (pDiag != null)
+        	pDiag.dismiss();
+    }
 }

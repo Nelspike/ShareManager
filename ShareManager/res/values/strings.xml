@@ -9,6 +9,7 @@
     <string name="search_hint">What company?</string>
     <string name="description">Generic description</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_results">Results</string>
     <string name="title_activity_company">Company Activity</string>
     <string name="graph_settings">Charts</string>
     <string name="other_settings">Other</string>

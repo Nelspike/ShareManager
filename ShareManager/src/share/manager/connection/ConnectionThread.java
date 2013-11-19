@@ -2,6 +2,7 @@ package share.manager.connection;
 
 import java.util.ArrayList;
 
+import share.manager.utils.RESTFunction;
 import android.app.Activity;
 import android.os.Handler;
 import android.os.Looper;
@@ -11,14 +12,12 @@ public class ConnectionThread extends Thread {
 
 	private ConnectionRunnable runConnection;
 	private Handler mHandler;
-	/*private View view;
-	private ShareManager app;*/
+	private RESTFunction current;
 	
-	public ConnectionThread(String link, Handler handler, Activity context) {
-		runConnection = new ConnectionRunnable(link);
-		mHandler = handler;
-		//this.view = view;
-		//this.app = ((ShareManager) context.getApplicationContext());
+	public ConnectionThread(String link, Handler handler, Activity context, RESTFunction current) {
+		this.runConnection = new ConnectionRunnable(link);
+		this.mHandler = handler;
+		this.current = current;
 	}
 
 	@Override
@@ -36,6 +35,7 @@ public class ConnectionThread extends Thread {
 	private void threadMsg() {
 		Message msgObj = mHandler.obtainMessage();
 		msgObj.obj = getResult();
+		msgObj.what = current.toInt();
 		mHandler.sendMessage(msgObj);
 	}
 

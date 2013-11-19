@@ -15,6 +15,7 @@ public class ShareManager extends Application {
 	private char periodicity;
 	private int days;
 	private String currency;
+	private boolean accessedSettings;
 
 	public char getPeriodicity() {
 		return periodicity;
@@ -38,6 +39,14 @@ public class ShareManager extends Application {
 
 	public void setCurrency(String currency) {
 		this.currency = currency;
+	}
+
+	public boolean isAccessedSettings() {
+		return accessedSettings;
+	}
+
+	public void setAccessedSettings(boolean accessedSettings) {
+		this.accessedSettings = accessedSettings;
 	}
 	
 }

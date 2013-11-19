@@ -5,6 +5,7 @@ import java.util.Calendar;
 
 import share.manager.connection.ConnectionThread;
 import share.manager.utils.CompanyGraphicsBuilder;
+import share.manager.utils.RESTFunction;
 import share.manager.utils.ShareUtils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -58,7 +59,7 @@ public class CompanyActivity extends Activity {
 		ConnectionThread dataThread = new ConnectionThread(
 				app.yahooChart+ShareUtils.createChartLink(backtrack.get(Calendar.MONTH), backtrack.get(Calendar.DAY_OF_MONTH), backtrack.get(Calendar.YEAR),
 						current.get(Calendar.MONTH), current.get(Calendar.DAY_OF_MONTH), current.get(Calendar.YEAR), app.getPeriodicity(), this.tick), 
-						threadConnectionHandler, this);
+						threadConnectionHandler, this, RESTFunction.NONE);
 		dataThread.start();
 	}
 	

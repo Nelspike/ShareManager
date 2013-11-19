@@ -1,0 +1,82 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frame_portfolio"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PortfolioFragment" >
+        
+        <LinearLayout
+            android:id="@+id/portfolio_linear"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical">
+            
+            <TableLayout
+	            android:layout_height="wrap_content"
+	            android:layout_width="match_parent"
+	            android:layout_margin="20dp">
+                
+                <TableRow 
+		            android:layout_height="wrap_content"
+		            android:layout_width="match_parent">
+                    
+                    <LinearLayout
+			            android:layout_height="wrap_content"
+			            android:layout_width="match_parent"
+			            android:orientation="vertical"
+			            android:gravity="center_vertical"
+			            android:layout_weight="3">
+		                        
+                        	<TextView
+                        	    android:id="@+id/company_name_portfolio"
+                        	    android:layout_width="match_parent"
+                        	    android:layout_height="wrap_content"
+                        	    android:textSize="20sp"
+                        	    android:textStyle="bold" />
+                        	
+                        	<TextView
+                        	    android:id="@+id/company_region_portfolio"
+                        	    android:layout_width="match_parent"
+                        	    android:layout_height="wrap_content"
+                        	    android:textSize="12sp" />
+                        
+                    </LinearLayout>
+                    
+                    <LinearLayout
+			            android:layout_height="wrap_content"
+			            android:layout_width="match_parent"
+			            android:orientation="horizontal"
+			            android:layout_weight="1"
+			            android:gravity="center_horizontal">
+		                        
+                        	<ImageView
+                        	    android:contentDescription="@string/description"
+                        	    android:id="@+id/company_arrow_portfolio"
+                        	    android:layout_width="wrap_content"
+                        	    android:layout_height="wrap_content" />
+                        	
+                        	<TextView
+                        	    android:id="@+id/company_change_portfolio"
+                        	    android:gravity="center"
+                        	    android:layout_width="wrap_content"
+                        	    android:layout_height="match_parent"
+                        	    android:textSize="20sp"
+                        	    android:textStyle="bold" />
+                        
+                    </LinearLayout>                   
+                    
+                </TableRow>
+                
+            </TableLayout>
+            
+			<LinearLayout 
+			    android:id="@+id/chart_portfolio" 
+			    android:orientation="horizontal"
+			    android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+			    android:layout_gravity="center"
+	            android:layout_margin="5dp"/>
+            
+        </LinearLayout>
+    
+</FrameLayout>

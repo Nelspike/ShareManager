@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_horizontal"
+            android:gravity="right"
             android:orientation="horizontal" >
 
             <ImageView
@@ -46,7 +46,7 @@
 
             <TextView
                 android:id="@+id/company_change_box"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textSize="20sp"
