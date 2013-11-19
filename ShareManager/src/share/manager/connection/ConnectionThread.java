@@ -1,3 +1,4 @@
+
 package share.manager.connection;
 
 import java.util.ArrayList;
@@ -13,8 +14,9 @@ public class ConnectionThread extends Thread {
 	private ConnectionRunnable runConnection;
 	private Handler mHandler;
 	private RESTFunction current;
-	
-	public ConnectionThread(String link, Handler handler, Activity context, RESTFunction current) {
+
+	public ConnectionThread(String link, Handler handler, Activity context,
+			RESTFunction current) {
 		this.runConnection = new ConnectionRunnable(link);
 		this.mHandler = handler;
 		this.current = current;
@@ -31,7 +33,7 @@ public class ConnectionThread extends Thread {
 	public ArrayList<String> getResult() {
 		return runConnection.getResultObject();
 	}
-	
+
 	private void threadMsg() {
 		Message msgObj = mHandler.obtainMessage();
 		msgObj.obj = getResult();

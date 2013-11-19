@@ -1,3 +1,4 @@
+
 package share.manager.fragments;
 
 import java.util.ArrayList;
@@ -21,36 +22,36 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-
 public class MineFragment extends Fragment {
 
 	private View rootView;
 	private SharesGraphicsBuilder graph;
-	
+
 	@SuppressLint("HandlerLeak")
 	private Handler threadConnectionHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-				
+
 		}
 	};
-	
+
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 		setRetainInstance(true);
 		rootView = inflater.inflate(R.layout.fragment_mine, container, false);
-		if(FileHandler.readFile().size() > 0) {
+		if (FileHandler.readFile().size() > 0) {
 			FrameLayout frame = (FrameLayout) rootView.findViewById(R.id.frame_mine);
-			if(frame.findViewById(0xfefefefe) != null) {
+			if (frame.findViewById(0xfefefefe) != null) {
 				frame.removeView(frame.findViewById(0xfefefefe));
 			}
-			
+
 			makeGraph();
 			startFiles();
 		}
 		else {
 			FrameLayout frame = (FrameLayout) rootView.findViewById(R.id.frame_mine);
-			if(frame.findViewById(0xfefefefe) != null) {
+			if (frame.findViewById(0xfefefefe) != null) {
 				TextView text = (TextView) frame.findViewById(0xfefefefe);
 				text.setText("Please subscribe to a company in order to see its stock evolution!");
 				text.setTextColor(Color.WHITE);
@@ -64,16 +65,17 @@ public class MineFragment extends Fragment {
 				text.setTextColor(Color.WHITE);
 				text.setTextSize(25.0f);
 				text.setGravity(Gravity.CENTER);
-				frame.addView(text, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+				frame.addView(text, new LayoutParams(LayoutParams.MATCH_PARENT,
+						LayoutParams.MATCH_PARENT));
 			}
 		}
 		return rootView;
 	}
-	
+
 	public void refresh() {
-		if(FileHandler.readFile().size() > 0) {
+		if (FileHandler.readFile().size() > 0) {
 			FrameLayout frame = (FrameLayout) rootView.findViewById(R.id.frame_mine);
-			if(frame.findViewById(0xfefefefe) != null) {
+			if (frame.findViewById(0xfefefefe) != null) {
 				frame.removeView(frame.findViewById(0xfefefefe));
 			}
 			makeGraph();
@@ -81,7 +83,7 @@ public class MineFragment extends Fragment {
 		}
 		else {
 			FrameLayout frame = (FrameLayout) rootView.findViewById(R.id.frame_mine);
-			if(frame.findViewById(0xfefefefe) != null) {
+			if (frame.findViewById(0xfefefefe) != null) {
 				TextView text = (TextView) frame.findViewById(0xfefefefe);
 				text.setText("Please subscribe to a company in order to see its stock evolution!");
 				text.setTextColor(Color.WHITE);
@@ -95,23 +97,27 @@ public class MineFragment extends Fragment {
 				text.setTextColor(Color.WHITE);
 				text.setTextSize(25.0f);
 				text.setGravity(Gravity.CENTER);
-				frame.addView(text, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+				frame.addView(text, new LayoutParams(LayoutParams.MATCH_PARENT,
+						LayoutParams.MATCH_PARENT));
 			}
 		}
 	}
-	
+
 	private void makeGraph() {
 		ArrayList<Integer> values = FileHandler.getSharePercentages();
 		ArrayList<String> names = FileHandler.getNamesString();
 		graph = new SharesGraphicsBuilder(getActivity(), values, names, rootView);
 	}
-	
+
 	private void startFiles() {
-		ListView listMyShares = (ListView) rootView.findViewById(R.id.list_my_shares);
+		ListView listMyShares = (ListView) rootView
+				.findViewById(R.id.list_my_shares);
 		final String[] names = FileHandler.getNames();
-		String[] regions = FileHandler.getRegions(), shares = FileHandler.getShares();
+		String[] regions = FileHandler.getRegions(), shares = FileHandler
+				.getShares();
 		final String[] ticks = FileHandler.getTicks();
 
-		listMyShares.setAdapter(new SharesAdapter(getActivity(), R.layout.shares_box, names, regions, shares, ticks, graph));
+		listMyShares.setAdapter(new SharesAdapter(getActivity(),
+				R.layout.shares_box, names, regions, shares, ticks, graph));
 	}
 }

@@ -1,3 +1,4 @@
+
 package share.manager.fragments;
 
 import java.util.ArrayList;
@@ -37,72 +38,75 @@ public class SharesFragment extends Fragment {
 	private ProgressDialog pDiag;
 	private Activity mActivity;
 	private boolean firstTime = true;
-	
+
 	@SuppressLint("HandlerLeak")
 	@SuppressWarnings("unchecked")
 	private Handler threadConnectionHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			switch(currentFunction) {
+			switch (currentFunction) {
 				case GET_COMPANY_STOCK:
 					buildList((ArrayList<String>) msg.obj);
 					dismissProgressDialog();
 					break;
 				default:
 					break;
-			}		
+			}
 		}
 	};
-	
+
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 		setRetainInstance(true);
 		rootView = inflater.inflate(R.layout.fragment_shares, container, false);
 		app = (ShareManager) mActivity.getApplication();
-		if(firstTime) {
+		if (firstTime) {
 			firstTime = false;
 			startQuotas();
 		}
 		return rootView;
 	}
-	
+
 	@Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mActivity = activity;
-    }
-	
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mActivity = activity;
+	}
+
 	public void refresh() {
-		if(!firstTime) {
+		if (!firstTime) {
 			showProgressDialog("Fetching results..");
 			startQuotas();
 		}
 	}
-	
+
 	public void startQuotas() {
 		currentFunction = RESTFunction.GET_COMPANY_STOCK;
 		String link = app.yahooQuote;
-		
+
 		ArrayList<String> info = FileHandler.readFile();
-		
-		if(info.size() > 0) {
-			FrameLayout frame = (FrameLayout) rootView.findViewById(R.id.frame_shares);
-			if(frame.findViewById(0xfefefefe) != null) {
+
+		if (info.size() > 0) {
+			FrameLayout frame = (FrameLayout) rootView
+					.findViewById(R.id.frame_shares);
+			if (frame.findViewById(0xfefefefe) != null) {
 				frame.removeView(frame.findViewById(0xfefefefe));
 			}
-			
-			for(String s : info)
+
+			for (String s : info)
 				link += s.split("\\|")[1] + "+";
-			
-			link = link.substring(0, link.length()-1);
-			
-			ConnectionThread dataThread = new ConnectionThread(
-					link, threadConnectionHandler, mActivity, currentFunction);
+
+			link = link.substring(0, link.length() - 1);
+
+			ConnectionThread dataThread =  new ConnectionThread(link,
+						threadConnectionHandler, mActivity, currentFunction);
 			dataThread.start();
 		}
 		else {
-			FrameLayout frame = (FrameLayout) rootView.findViewById(R.id.frame_shares);
-			if(frame.findViewById(0xfefefefe) != null) {
+			FrameLayout frame = (FrameLayout) rootView
+					.findViewById(R.id.frame_shares);
+			if (frame.findViewById(0xfefefefe) != null) {
 				TextView text = (TextView) frame.findViewById(0xfefefefe);
 				text.setText("Please subscribe to a company in order to see its stock evolution!");
 				text.setTextColor(Color.WHITE);
@@ -116,30 +120,33 @@ public class SharesFragment extends Fragment {
 				text.setTextColor(Color.WHITE);
 				text.setTextSize(25.0f);
 				text.setGravity(Gravity.CENTER);
-				frame.addView(text, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+				frame.addView(text, new LayoutParams(LayoutParams.MATCH_PARENT,
+						LayoutParams.MATCH_PARENT));
 			}
 			dismissProgressDialog();
 		}
 	}
-	
+
 	private void buildList(ArrayList<String> received) {
-		
-		final String[] names = FileHandler.getNames(), ticks = FileHandler.getTicks();
+
+		final String[] names = FileHandler.getNames(), ticks = FileHandler
+				.getTicks();
 		String[] regions = FileHandler.getRegions();
-		
+
 		boolean[] status = new boolean[received.size()];
 		String[] changes = new String[received.size()];
-		
-		for(int i = 0; i < received.size(); i++) {
+
+		for (int i = 0; i < received.size(); i++) {
 			String[] split = received.get(i).split(",");
 			float ch = Float.parseFloat(split[4]);
-			if(ch > 0) status[i] = true;
+			if (ch > 0) status[i] = true;
 			else status[i] = false;
-			
-			changes[i] = Math.abs(ch)+"";
+
+			changes[i] = String.format("%.2f", Math.abs(ch))+"%";
 		}
-		
-		ListView listResults = (ListView) rootView.findViewById(R.id.list_share_following);
+
+		ListView listResults = (ListView) rootView
+				.findViewById(R.id.list_share_following);
 
 		listResults.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -149,24 +156,22 @@ public class SharesFragment extends Fragment {
 				intent.putExtra("Tick", FileHandler.getInfoFromTick(ticks[arg2]));
 				startActivity(intent);
 			}
-			
+
 		});
-		
-		listResults.setAdapter(new CompanyAdapter(mActivity, R.layout.company_box, 
+
+		listResults.setAdapter(new CompanyAdapter(mActivity, R.layout.company_box,
 				names, regions, status, changes));
 	}
-	
+
 	public void showProgressDialog(CharSequence message) {
 		pDiag = new ProgressDialog(mActivity);
-	        if (pDiag == null)
-	        	pDiag.setIndeterminate(true);
+		if (pDiag == null) pDiag.setIndeterminate(true);
 
-	        pDiag.setMessage(message);
-	        pDiag.show();
-	    }
+		pDiag.setMessage(message);
+		pDiag.show();
+	}
 
-    public void dismissProgressDialog() {
-        if (pDiag != null)
-        	pDiag.dismiss();
-    }
+	public void dismissProgressDialog() {
+		if (pDiag != null) pDiag.dismiss();
+	}
 }

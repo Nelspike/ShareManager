@@ -1,17 +1,16 @@
+
 package share.manager.stock;
 
 import android.app.Application;
 
 public class ShareManager extends Application {
-	
-    public String KEY_PREF_PERIODICITY = "pref_periodicity";
-    public String KEY_PREF_DAYS = "pref_days";
-    public String KEY_PREF_CURRENCY = "pref_currency";
+
+	public String KEY_PREF_PERIODICITY = "pref_periodicity";
+	public String KEY_PREF_DAYS = "pref_days";
+	public String KEY_PREF_CURRENCY = "pref_currency";
 	public String yahooChart = "http://ichart.finance.yahoo.com/table.txt?";
-	public String yahooQuote = "http://finance.yahoo.com/d/quotes?f=sl1d1t1c1&s=";
-	/*public String[] names = {"GOOG", "YHOO", "MSFT", "DELL", "ZONOP.LS" };
-	public String[] regions = {"NASDAQ", "NASDAQ", "NASDAQ", "NASDAQ", "NASDAQ" };*/
-	
+	public String yahooQuote = "http://finance.yahoo.com/d/quotes?f=sl1d1t1c1opghv&s=";
+
 	private char periodicity;
 	private int days;
 	private String currency;
@@ -48,5 +47,5 @@ public class ShareManager extends Application {
 	public void setAccessedSettings(boolean accessedSettings) {
 		this.accessedSettings = accessedSettings;
 	}
-	
+
 }

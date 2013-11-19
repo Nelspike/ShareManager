@@ -1,10 +1,332 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical" android:layout_width="fill_parent"
-              android:layout_height="fill_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
-    <LinearLayout android:id="@+id/chart" android:orientation="horizontal"
-                  android:layout_width="wrap_content" android:layout_height="0dip" android:layout_weight="1"
-                  android:layout_gravity="center"/>
+    <LinearLayout
+        android:id="@+id/chart"
+        android:layout_width="wrap_content"
+        android:layout_height="0dip"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:orientation="horizontal" />
+    
+    <TableLayout
+        android:id="@+id/company_table"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:stretchColumns="0,1,2,3"
+      	android:padding="5dp" >
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" >
+
+            <TextView
+                android:id="@+id/region_company_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_span="4"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_span="2"
+                android:text="@string/today_company"
+                android:textSize="15sp"
+                android:textStyle="bold"
+      			android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/last_days_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_span="2"
+                android:textSize="15sp"
+                android:textStyle="bold"
+      			android:padding="5dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/today_high"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/today_high_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/last_days_highest"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/last_days_highest_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+        </TableRow>
+        
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/today_low"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/today_low_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/last_days_lowest"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/last_days_lowest_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+        </TableRow>
+        
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/today_open"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/today_open_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/last_days_highest_open"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/last_days_highest_open_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+        </TableRow>
+        
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/today_close"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/today_close_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/last_days_highest_close"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/last_days_highest_close_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+        </TableRow>
+        
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/today_volume"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/today_volume_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/last_days_lowest_open"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/last_days_lowest_open_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+        </TableRow>
+        
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/today_current"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/today_current_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/last_days_lowest_close"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/last_days_lowest_close_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+        </TableRow>
+        
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/today_current_date"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/today_current_date_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/minus_sign"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/minus_sign"
+                android:textSize="15sp"
+      			android:padding="5dp" />
+        </TableRow>
+    </TableLayout>
 
 </LinearLayout>

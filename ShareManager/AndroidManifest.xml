@@ -23,6 +23,7 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -30,21 +31,30 @@
             android:name="share.manager.stock.ResultsActivity"
             android:label="@string/title_activity_results" >
             <intent-filter>
-				<action android:name="android.intent.action.SEARCH" />
+                <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
 
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable"
                 android:value="share.manager.stock.ResultsActivity" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="share.manager.stock.MainActivity" />
         </activity>
         <activity
             android:name="share.manager.stock.SettingsActivity"
             android:label="@string/title_activity_settings" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="share.manager.stock.MainActivity" />
         </activity>
         <activity
             android:name="share.manager.stock.CompanyActivity"
             android:label="@string/title_activity_company" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="share.manager.stock.MainActivity" />
         </activity>
     </application>
 

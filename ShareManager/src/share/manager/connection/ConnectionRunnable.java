@@ -1,3 +1,4 @@
+
 package share.manager.connection;
 
 import java.io.*;
@@ -38,20 +39,21 @@ public class ConnectionRunnable implements Runnable {
 					con.getInputStream(), "UTF-8"));
 
 			while ((line = reader.readLine()) != null) {
-				//System.out.println("Line - " + line);
 				resultString.add(line);
 			}
-			
+
 			reader.close();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			try {
-				resultString.add(con.getResponseCode()+"");
-			} catch (IOException e1) {
-				//TODO: Can't figure response code
+				resultString.add(con.getResponseCode() + "");
 			}
-		} finally {
-			if (con != null)
-				con.disconnect();
+			catch (IOException e1) {
+				// TODO: Can't figure response code
+			}
+		}
+		finally {
+			if (con != null) con.disconnect();
 		}
 	}
 

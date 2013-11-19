@@ -15,6 +15,20 @@
     <string name="other_settings">Other</string>
     <string name="plus_sign">+</string>
     <string name="minus_sign">-</string>
+    <string name="today_company">Today</string>
+    <string name="today_high">High</string>
+    <string name="today_low">Low</string>
+    <string name="today_open">Open</string>
+    <string name="today_close">Close</string>
+    <string name="today_current">Current</string>
+    <string name="today_volume">Volume</string>
+    <string name="today_current_date">Last date</string>
+    <string name="last_days_highest">Highest</string>
+    <string name="last_days_lowest">Lowest</string>
+    <string name="last_days_highest_open">Highest open</string>
+    <string name="last_days_highest_close">Highest close</string>
+    <string name="last_days_lowest_open">Lowest open</string>
+    <string name="last_days_lowest_close">Lowest close</string>
     
     <string name="periodicity_pref">Periodicity of shares</string>
     <string name="periodicity_summary">Define how periodically shares will be displayed in charts</string>

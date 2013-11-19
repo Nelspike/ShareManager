@@ -1,3 +1,4 @@
+
 package share.manager.utils;
 
 import java.util.ArrayList;
@@ -51,15 +52,12 @@ public class CompanyGraphicsBuilder {
 		mRenderer.setXLabelsPadding(30);
 		mRenderer.setMarginsColor(Color.argb(0, 50, 50, 50));
 
-		mChartView = ChartFactory
-				.getLineChartView(context, mDataset, mRenderer);
+		mChartView = ChartFactory.getLineChartView(context, mDataset, mRenderer);
 
 		LinearLayout layout = null;
 
-		if (view == null)
-			layout = (LinearLayout) context.findViewById(R.id.chart);
-		else
-			layout = (LinearLayout) view.findViewById(R.id.chart_portfolio);
+		if (view == null) layout = (LinearLayout) context.findViewById(R.id.chart);
+		else layout = (LinearLayout) view.findViewById(R.id.chart_portfolio);
 
 		layout.addView(mChartView, new LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT));
@@ -75,8 +73,7 @@ public class CompanyGraphicsBuilder {
 		renderer.setFillPoints(true);
 		renderer.setColor(Color.argb(100, 35, 25, 250));
 		renderer.setLineWidth(5.0f);
-		FillOutsideLine fill = new FillOutsideLine(
-				FillOutsideLine.Type.BOUNDS_ALL);
+		FillOutsideLine fill = new FillOutsideLine(FillOutsideLine.Type.BOUNDS_ALL);
 		fill.setColor(Color.argb(20, 255, 255, 255));
 		renderer.addFillOutsideLine(fill);
 
@@ -97,10 +94,9 @@ public class CompanyGraphicsBuilder {
 				+ dates.get(dates.size() - 1));
 
 		Collections.sort(stockValues);
-		if (stockValues.get(0) - 20.0f >= 0)
-			mRenderer.setYAxisMin(stockValues.get(0) - 20.0f);
-		else
-			mRenderer.setYAxisMin(0);
+		if (stockValues.get(0) - 20.0f >= 0) mRenderer.setYAxisMin(stockValues
+				.get(0) - 20.0f);
+		else mRenderer.setYAxisMin(0);
 
 		mRenderer.setYAxisMax(stockValues.get(stockValues.size() - 1) + 20.0f);
 
@@ -110,8 +106,7 @@ public class CompanyGraphicsBuilder {
 		mChartView.repaint();
 	}
 
-	public void repaintGraph(ArrayList<Float> stockValues,
-			ArrayList<String> dates) {
+	public void repaintGraph(ArrayList<Float> stockValues, ArrayList<String> dates) {
 		mRenderer.removeAllRenderers();
 		mDataset.clear();
 		mCurrentSeries.clear();
@@ -126,8 +121,7 @@ public class CompanyGraphicsBuilder {
 		renderer.setFillPoints(true);
 		renderer.setColor(Color.argb(100, 35, 25, 250));
 		renderer.setLineWidth(5.0f);
-		FillOutsideLine fill = new FillOutsideLine(
-				FillOutsideLine.Type.BOUNDS_ALL);
+		FillOutsideLine fill = new FillOutsideLine(FillOutsideLine.Type.BOUNDS_ALL);
 		fill.setColor(Color.argb(20, 255, 255, 255));
 		renderer.addFillOutsideLine(fill);
 
@@ -148,17 +142,17 @@ public class CompanyGraphicsBuilder {
 				+ dates.get(dates.size() - 1));
 
 		Collections.sort(stockValues);
-		if (stockValues.get(0) - 20.0f >= 0)
-			mRenderer.setYAxisMin(stockValues.get(0) - 20.0f);
-		else
-			mRenderer.setYAxisMin(0);
+		if (stockValues.get(0) - 20.0f >= 0) mRenderer.setYAxisMin(stockValues
+				.get(0) - 20.0f);
+		else mRenderer.setYAxisMin(0);
 
 		mRenderer.setYAxisMax(stockValues.get(stockValues.size() - 1) + 20.0f);
 
 		mRenderer.setXAxisMin(0);
 		mRenderer.setXAxisMax(dates.size());
-		
-		LinearLayout layout = (LinearLayout) this.view.findViewById(R.id.chart_portfolio);
+
+		LinearLayout layout = (LinearLayout) this.view
+				.findViewById(R.id.chart_portfolio);
 		layout.removeAllViews();
 		mChartView = ChartFactory.getLineChartView(context, mDataset, mRenderer);
 		layout.addView(mChartView, new LayoutParams(LayoutParams.WRAP_CONTENT,
